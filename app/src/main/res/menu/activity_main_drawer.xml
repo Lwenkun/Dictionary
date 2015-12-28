@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:title="登陆"
+            android:icon="@drawable/ic_person_black_48dp"
+            android:id="@+id/nav_login"
+            />
+        <item
+            android:id="@+id/nav_book"
+            android:icon="@drawable/ic_book_black_18dp"
+            android:title="我的单词本" />
+    </group>
+
+    <item android:title="更多">
+        <menu>
+            <item
+                android:id="@+id/nav_setting"
+                android:icon="@drawable/ic_settings_black_18dp"
+                android:title="设置" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_info_outline_black_18dp"
+                android:title="关于" />
+        </menu>
+    </item>
+
+</menu>
