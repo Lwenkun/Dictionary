@@ -9,27 +9,27 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.lwenkun.dictionary.MainActivity"
+    tools:context=".ui.activity.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_container_main">
-
         <EditText
-            android:id="@+id/edit_"
+            android:id="@+id/edit_query"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入您要查询的单词"
-            android:onClick="showPopup" />
-    </android.support.design.widget.TextInputLayout>
+            android:padding="@dimen/et_padding"
+            android:hint="@string/et_search_hint"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:background="@drawable/bg_light_round_corner"
+            android:drawableStart="@drawable/ic_search_grey_500_24dp"
+            android:drawableEnd="@drawable/ic_action_overflow"/>
 
-    <Button
-        android:layout_below="@id/edit_query"
-        android:id="@+id/btn_confirm"
+    <fragment
+        android:id="@+id/fg_collection_display"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="确定" />
+        android:layout_below="@id/edit_query"
+        android:name="com.lwenkun.dictionary.ui.fragment.CollectionDisplayFragment"
+        tools:layout="@layout/fragment_collection_display" />
 
 </RelativeLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/show_rest"
+        android:title="@string/popup_show_rest" />
+    <item
+        android:id="@+id/web_translation"
+        android:title="@string/popup_web_translation"/>
+
+</menu>

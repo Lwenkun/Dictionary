@@ -1,4 +1,4 @@
-package com.lwenkun.dictionary;
+package com.lwenkun.dictionary.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +11,6 @@ public class CollectionActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedOnInstanceState) {
         super.onCreate(savedOnInstanceState);
-
     }
 
 }
