@@ -12,24 +12,39 @@
     tools:context=".ui.activity.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <ProgressBar
+        android:id="@+id/pb_load_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:elevation="20dp"
+        android:visibility="invisible"/>
+
         <EditText
-            android:id="@+id/edit_query"
+            android:id="@+id/et_query"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/et_padding"
             android:hint="@string/et_search_hint"
             android:maxLines="1"
             android:singleLine="true"
+            android:imeOptions="actionSend"
             android:background="@drawable/bg_light_round_corner"
             android:drawableStart="@drawable/ic_search_grey_500_24dp"
             android:drawableEnd="@drawable/ic_action_overflow"/>
 
-    <fragment
-        android:id="@+id/fg_collection_display"
+    <FrameLayout
+        android:id="@+id/fg_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_query"
-        android:name="com.lwenkun.dictionary.ui.fragment.CollectionDisplayFragment"
-        tools:layout="@layout/fragment_collection_display" />
+        android:layout_below="@id/et_query">
+        <fragment
+            android:id="@+id/fg_collection_display"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="com.lwenkun.dictionary.ui.fragment.CollectionDisplayFragment"
+            tools:layout="@layout/fragment_collection_display" />
+    </FrameLayout>
+
 
 </RelativeLayout>

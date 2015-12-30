@@ -1,9 +1,11 @@
 package com.lwenkun.dictionary.model;
 
+import java.io.Serializable;
+
 /**
  * Created by 15119 on 2015/12/28.
  */
-public class TranslateResultSet {
+public class TranslateResultSet implements Serializable{
 
     private String query;
     private String translation;

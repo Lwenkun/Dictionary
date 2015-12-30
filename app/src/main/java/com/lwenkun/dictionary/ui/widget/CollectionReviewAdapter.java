@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.lwenkun.dictionary.R;
@@ -34,7 +33,7 @@ public class CollectionReviewAdapter extends ArrayAdapter<TranslateResultSet> {
 
         TranslateResultSet translateResultSet = getItem(position);
         TextView tv_query;
-        ListView lv_translate;
+        TextView tv_translate;
         TextView tv_usPhonetic;
         TextView tv_ukPhonetic;
         TextView tv_more;
@@ -43,7 +42,7 @@ public class CollectionReviewAdapter extends ArrayAdapter<TranslateResultSet> {
             convertView = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
 
             tv_query = (TextView) convertView.findViewById(R.id.tv_query);
-            lv_translate = (ListView) convertView.findViewById(R.id.lv_translate);
+            tv_translate = (TextView) convertView.findViewById(R.id.tv_translation);
             tv_usPhonetic = (TextView) convertView.findViewById(R.id.tv_us_phonetic);
             tv_ukPhonetic = (TextView) convertView.findViewById(R.id.tv_uk_phonetic);
             tv_more = (TextView) convertView.findViewById(R.id.tv_more);
@@ -57,11 +56,12 @@ public class CollectionReviewAdapter extends ArrayAdapter<TranslateResultSet> {
                     showPopup(v);
                 }
             });
-            ViewHolder viewHolder = new ViewHolder(tv_query, lv_translate, tv_usPhonetic, tv_ukPhonetic);
+            ViewHolder viewHolder = new ViewHolder(tv_query, tv_translate, tv_usPhonetic, tv_ukPhonetic);
             convertView.setTag(viewHolder);
         } else {
             ViewHolder viewHolder = (ViewHolder) convertView.getTag();
             viewHolder.tv_query.setText(translateResultSet.getTranslation());
+            viewHolder.tv_translation.setText(translateResultSet.getTranslation());
             viewHolder.tv_usPhonetic.setText(translateResultSet.getusPhonetic());
             viewHolder.tv_ukPhonetic.setText(translateResultSet.getukPhonetic());
         }
@@ -72,17 +72,17 @@ public class CollectionReviewAdapter extends ArrayAdapter<TranslateResultSet> {
     class ViewHolder {
 
         TextView tv_query;
-        ListView lv_translate;
+        TextView tv_translation;
         TextView tv_usPhonetic;
         TextView tv_ukPhonetic;
 
         public ViewHolder(TextView tv_query,
-                          ListView lv_translate,
+                          TextView tv_translation,
                           TextView tv_usPhonetic,
                           TextView tv_ukPhonetic) {
 
             this.tv_query = tv_query;
-            this.lv_translate = lv_translate;
+            this.tv_translation = tv_translation;
             this.tv_usPhonetic = tv_usPhonetic;
             this.tv_ukPhonetic = tv_ukPhonetic;
         }
