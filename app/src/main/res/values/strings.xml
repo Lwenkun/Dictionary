@@ -13,8 +13,13 @@
     <string name="label_us_phonetic">美:</string>
     <string name="label_uk_phonetic">英:</string>
 
-    <string name="et_search_hint">请输入您要查询的单词</string>
+    <string name="et_search_hint">请输入您要查询的单词或短语</string>
 
     <string name="tv_more">更多</string>
     <string name="action_add">新建单词本</string>
+
+    <string name="author_name">github.com/lwenkun</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="dialog_input_hint">给新单词本起个名字吧！</string>
 </resources>

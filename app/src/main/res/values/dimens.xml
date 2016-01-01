@@ -29,6 +29,8 @@
     <dimen name="list_item_explains_text_size">15sp</dimen>
     <dimen name="list_item_explains_text_paddingVertical">5dp</dimen>
     <dimen name="activity_padding">10dp</dimen>
+    <dimen name="app_name_text_size_big">20dp</dimen>
+    <dimen name="img_app_margin">15dp</dimen>
 
 
 </resources>

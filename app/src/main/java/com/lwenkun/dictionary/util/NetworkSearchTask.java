@@ -134,12 +134,6 @@ public class NetworkSearchTask extends AsyncTask<String,Void,TranslateResultSet>
             ukPhonetic = basic.getString("uk-phonetic");
             type = TYPE_ALL;
         } catch (Exception e) {
-//            JSONObject jResultSet = new JSONObject(jsonData);
-//            JSONArray translations = jResultSet.getJSONArray("translation");
-//            JSONObject basic = jResultSet.getJSONObject("basic");
-//            JSONArray explains = basic.getJSONArray("explains");
-//            String query = jResultSet.getString("query");
-//            String translation = translations.getString(0);
             e.printStackTrace();
         }
         return new TranslateResultSet(query, translation, usPhonetic, ukPhonetic, sExplains);

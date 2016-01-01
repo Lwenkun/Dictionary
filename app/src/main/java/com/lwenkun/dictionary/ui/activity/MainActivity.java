@@ -1,7 +1,9 @@
 package com.lwenkun.dictionary.ui.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.lwenkun.dictionary.R;
+import com.lwenkun.dictionary.model.AlbumManager;
 import com.lwenkun.dictionary.model.TranslateResultSet;
 import com.lwenkun.dictionary.ui.Interface.UIUpdater;
 import com.lwenkun.dictionary.ui.fragment.ResultDisplayFragment;
@@ -27,9 +31,10 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,UIUpdater {
 
     public static String KEY_SER = "com.lwenkun.dictionary.key.ser";
-    public static String KEY_TYPE = "com.lwenkub.dictionary.key.type";
+    public static String KEY_TYPE = "com.lwenkun.dictionary.key.type";
 
     private ProgressBar progressBar;
+    private AlbumManager albumManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         ed_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_SEND) {
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
                     doSearchWork(ed_search);
                 }
                 return true;
@@ -88,22 +93,31 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                break;
+            case R.id.action_add :
+                showAddNewDialog();
+                break;
         }
-
+        //noinspection SimplifiableIfStatement
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
+
         // Handle navigation view item clicks here.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        switch (item.getItemId()) {
+            case R.id.nav_about :
+                Intent intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+        }
         return true;
     }
 
@@ -133,4 +147,33 @@ public class MainActivity extends AppCompatActivity
         fragment.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.fg_container, fragment).commit();
     }
+
+    public void showAddNewDialog() {
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_new_album, null);
+        final EditText et_addNewAlbum = (EditText) view.findViewById(R.id.et_add_new_album);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.ic_note_add_white_24dp)
+                .setTitle("新建单词本")
+                .setView(view)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        addNewAlbum(et_addNewAlbum.getText().toString());
+                    }
+                }).show();
+    }
+
+    public void addNewAlbum(final String albumName) {
+        new Thread() {
+            @Override
+            public void run() {
+                if (albumManager == null) {
+                    albumManager = AlbumManager.from(MainActivity.this);
+                } else {
+                    albumManager.addNewAlbum(albumName);
+                }
+            }
+        }.start();
+    }
+
 }
