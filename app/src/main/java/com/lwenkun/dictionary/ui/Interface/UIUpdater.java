@@ -9,5 +9,5 @@ public interface UIUpdater {
 
     void onHideProgressBar();
 
-    void onDataUpdate(Object data);
+    void onDataUpdate(Object data, int type);
 }

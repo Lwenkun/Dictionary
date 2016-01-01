@@ -58,7 +58,7 @@ public class CollectionDisplayFragment extends Fragment implements UIUpdater{
     }
 
     @Override
-    public void onDataUpdate(Object data) {
+    public void onDataUpdate(Object data, int type) {
         ((ArrayAdapter)lv_collectionReview.getAdapter()).notifyDataSetChanged();
     }
 }

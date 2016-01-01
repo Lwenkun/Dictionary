@@ -29,6 +29,6 @@ public class DisplayCollectionTask extends AsyncTask<Void,Void,TranslateResultSe
     @Override
     protected void onPostExecute(TranslateResultSet resultSet) {
         updater.onHideProgressBar();
-        updater.onDataUpdate(resultSet);
+        updater.onDataUpdate(resultSet, 0);
     }
 }

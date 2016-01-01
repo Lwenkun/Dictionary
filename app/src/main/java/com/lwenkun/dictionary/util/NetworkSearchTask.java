@@ -23,6 +23,11 @@ public class NetworkSearchTask extends AsyncTask<String,Void,TranslateResultSet>
 
     private String TAG = "NetworkSearchTask";
 
+    public final static int TYPE_ALL = 0;
+    public final static int TYPE_EXCEPT_PHONETIC = 1;
+    public final static int TYPE_EXCEPT_PHONETIC_AND_EXPLAINS = 2;
+    private static int type = TYPE_EXCEPT_PHONETIC_AND_EXPLAINS;
+
     private UIUpdater updater;
 
     public NetworkSearchTask(UIUpdater updater) {
@@ -105,28 +110,43 @@ public class NetworkSearchTask extends AsyncTask<String,Void,TranslateResultSet>
 
     public TranslateResultSet parseJsonIntoResultSet(String jsonData) {
 
+        String translation = null;
+        String query = null;
+        String usPhonetic = null;
+        String ukPhonetic = null;
+        String sExplains[] = null;
+
         try {
             JSONObject jResultSet = new JSONObject(jsonData);
             JSONArray translations = jResultSet.getJSONArray("translation");
+            translation = translations.getString(0);
+            query = jResultSet.getString("query");
+            type = TYPE_EXCEPT_PHONETIC_AND_EXPLAINS;
             JSONObject basic = jResultSet.getJSONObject("basic");
             JSONArray explains = basic.getJSONArray("explains");
-            String query = jResultSet.getString("query");
-            String translation = translations.getString(0);
-            String usPhonetic = basic.getString("us-phonetic");
-            String ukPhonetic = basic.getString("uk-phonetic");
-            String[] sExplains = new String[explains.length()];
+            sExplains = new String[explains.length()];
             for(int i = 0; i < explains.length(); i++){
                 sExplains[i] = explains.getString(i);
+                Log.d(TAG, sExplains[i]);
             }
-            return new TranslateResultSet(query, translation, usPhonetic, ukPhonetic, sExplains);
+            type = TYPE_EXCEPT_PHONETIC;
+            usPhonetic = basic.getString("us-phonetic");
+            ukPhonetic = basic.getString("uk-phonetic");
+            type = TYPE_ALL;
         } catch (Exception e) {
+//            JSONObject jResultSet = new JSONObject(jsonData);
+//            JSONArray translations = jResultSet.getJSONArray("translation");
+//            JSONObject basic = jResultSet.getJSONObject("basic");
+//            JSONArray explains = basic.getJSONArray("explains");
+//            String query = jResultSet.getString("query");
+//            String translation = translations.getString(0);
             e.printStackTrace();
         }
-        return null;
+        return new TranslateResultSet(query, translation, usPhonetic, ukPhonetic, sExplains);
     }
 
     @Override
     protected void onPostExecute(TranslateResultSet translateResultSet) {
-        updater.onDataUpdate(translateResultSet);
+        updater.onDataUpdate(translateResultSet, type);
     }
 }

@@ -7,7 +7,7 @@
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:orientation="vertical"
-    card_view:cardCornerRadius="4dp"
+    card_view:cardCornerRadius="20dp"
     card_view:cardElevation="4dp">
 
     <RelativeLayout

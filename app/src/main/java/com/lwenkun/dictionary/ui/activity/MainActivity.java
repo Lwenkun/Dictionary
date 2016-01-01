@@ -26,7 +26,8 @@ import com.lwenkun.dictionary.util.NetworkSearchTask;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,UIUpdater {
 
-    public static String SER_KEY = "com.lwenkun.dictionary.ser.key";
+    public static String KEY_SER = "com.lwenkun.dictionary.key.ser";
+    public static String KEY_TYPE = "com.lwenkub.dictionary.key.type";
 
     private ProgressBar progressBar;
 
@@ -42,14 +43,6 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -109,8 +102,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -133,11 +124,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDataUpdate(Object object) {
+    public void onDataUpdate(Object object, int type) {
         TranslateResultSet resultSet = (TranslateResultSet) object;
         ResultDisplayFragment fragment = new ResultDisplayFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(SER_KEY, resultSet);
+        bundle.putInt(KEY_TYPE, type);
+        bundle.putSerializable(KEY_SER, resultSet);
         fragment.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.fg_container, fragment).commit();
     }

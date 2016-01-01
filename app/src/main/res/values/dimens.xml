@@ -19,7 +19,16 @@
     <dimen name="phonetic_paddingEnd">5dp</dimen>
     <dimen name="translation_paddingTop">10dp</dimen>
     <dimen name="tv_more_padding">5dp</dimen>
-    <dimen name="tv_more_text_size">15dp</dimen>
+    <dimen name="tv_more_text_size">15sp</dimen>
     <dimen name="tv_translation_paddingStart">40dp</dimen>
+    <dimen name="et_query_margin">3dp</dimen>
+    <dimen name="list_item_explains_marginStart">5dp</dimen>
+    <dimen name="list_item_explains_marginEnd">5dp</dimen>
+    <dimen name="lv_explains_paddingStart">40dp</dimen>
+    <dimen name="list_item_explains_text_paddingHorizontal">3dp</dimen>
+    <dimen name="list_item_explains_text_size">15sp</dimen>
+    <dimen name="list_item_explains_text_paddingVertical">5dp</dimen>
+    <dimen name="activity_padding">10dp</dimen>
 
-    </resources>
+
+</resources>

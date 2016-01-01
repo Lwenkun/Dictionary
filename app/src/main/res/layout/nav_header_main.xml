@@ -16,7 +16,7 @@
         android:layout_width="@dimen/img_app_ic_width"
         android:layout_height="@dimen/img_app_ic_height"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@drawable/pic_dictionary" />
+        android:src="@drawable/ic_dictionary" />
 
     <TextView
         android:layout_width="match_parent"

@@ -13,4 +13,6 @@ public class Constants {
     public static String YD_TYPE = "data";
     public static String YD_DOCTYPE = "json";
     public static String YD_VERSION = "1.1";
+    public static String YD_ONLY = "dict";
+    public static String YD_ONLY_= "translate";
 }

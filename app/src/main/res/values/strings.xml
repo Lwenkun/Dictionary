@@ -16,4 +16,5 @@
     <string name="et_search_hint">请输入您要查询的单词</string>
 
     <string name="tv_more">更多</string>
+    <string name="action_add">新建单词本</string>
 </resources>

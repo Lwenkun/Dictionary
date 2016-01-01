@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.lwenkun.dictionary.R;
@@ -37,6 +38,7 @@ public class CollectionReviewAdapter extends ArrayAdapter<TranslateResultSet> {
         TextView tv_usPhonetic;
         TextView tv_ukPhonetic;
         TextView tv_more;
+        ListView lv_explains;
 
         if(convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
@@ -46,6 +48,7 @@ public class CollectionReviewAdapter extends ArrayAdapter<TranslateResultSet> {
             tv_usPhonetic = (TextView) convertView.findViewById(R.id.tv_us_phonetic);
             tv_ukPhonetic = (TextView) convertView.findViewById(R.id.tv_uk_phonetic);
             tv_more = (TextView) convertView.findViewById(R.id.tv_more);
+            lv_explains = (ListView) convertView.findViewById(R.id.lv_explains);
 
             tv_query.setText(translateResultSet.getQuery());
             tv_usPhonetic.setText(translateResultSet.getusPhonetic());
@@ -56,7 +59,8 @@ public class CollectionReviewAdapter extends ArrayAdapter<TranslateResultSet> {
                     showPopup(v);
                 }
             });
-            ViewHolder viewHolder = new ViewHolder(tv_query, tv_translate, tv_usPhonetic, tv_ukPhonetic);
+            lv_explains.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_expandable_list_item_1, translateResultSet.getExplains()));
+            ViewHolder viewHolder = new ViewHolder(tv_query, tv_translate, tv_usPhonetic, tv_ukPhonetic, lv_explains);
             convertView.setTag(viewHolder);
         } else {
             ViewHolder viewHolder = (ViewHolder) convertView.getTag();
@@ -75,27 +79,29 @@ public class CollectionReviewAdapter extends ArrayAdapter<TranslateResultSet> {
         TextView tv_translation;
         TextView tv_usPhonetic;
         TextView tv_ukPhonetic;
+        ListView lv_explains;
 
         public ViewHolder(TextView tv_query,
                           TextView tv_translation,
                           TextView tv_usPhonetic,
-                          TextView tv_ukPhonetic) {
+                          TextView tv_ukPhonetic,
+                          ListView lv_explains) {
 
             this.tv_query = tv_query;
             this.tv_translation = tv_translation;
             this.tv_usPhonetic = tv_usPhonetic;
             this.tv_ukPhonetic = tv_ukPhonetic;
+            this.lv_explains = lv_explains;
         }
 
 
     }
 
-
     private void showPopup(View v) {
         PopupMenu popup = new PopupMenu(getContext(), v);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.list_item_more, popup.getMenu());
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
