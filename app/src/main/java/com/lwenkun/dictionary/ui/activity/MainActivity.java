@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +21,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lwenkun.dictionary.R;
 import com.lwenkun.dictionary.model.AlbumManager;
@@ -28,13 +31,15 @@ import com.lwenkun.dictionary.ui.fragment.ResultDisplayFragment;
 import com.lwenkun.dictionary.util.NetworkSearchTask;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,UIUpdater {
+        implements NavigationView.OnNavigationItemSelectedListener,UIUpdater,Handler.Callback {
 
     public static String KEY_SER = "com.lwenkun.dictionary.key.ser";
     public static String KEY_TYPE = "com.lwenkun.dictionary.key.type";
 
     private ProgressBar progressBar;
     private AlbumManager albumManager;
+
+    private Handler handler = new Handler(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,12 +173,27 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run() {
                 if (albumManager == null) {
-                    albumManager = AlbumManager.from(MainActivity.this);
-                } else {
-                    albumManager.addNewAlbum(albumName);
+                    albumManager = AlbumManager.getInstance(MainActivity.this, handler);
                 }
+                albumManager.addNewAlbum(albumName);
             }
         }.start();
     }
 
+    @Override
+    public boolean handleMessage(Message msg) {
+        switch (msg.what) {
+            case AlbumManager.MSG_ALBUM_NOT_EXIST :
+                Toast.makeText(this, "出错啦，没有该单词本哦", Toast.LENGTH_SHORT).show();
+                break;
+            case AlbumManager.MSG_ALBUM_ALREADY_EXIST:
+                Toast.makeText(this, "该单词本已存在，换个名字呗", Toast.LENGTH_SHORT).show();
+                break;
+            case AlbumManager.MSG_CREATE_SUCCESSFUL:
+                Toast.makeText(this, "单词创建成功", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        return true;
+    }
 }
