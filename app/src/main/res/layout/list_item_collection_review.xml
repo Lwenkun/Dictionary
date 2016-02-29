@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:orientation="vertical"
-    card_view:cardCornerRadius="20dp"
-    card_view:cardElevation="4dp">
+    android:layout_margin="3dp"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardElevation="@dimen/cardview_default_elevation">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
+
             <ImageView
                 android:id="@+id/iv_star"
                 android:layout_width="@dimen/star_size"
                 android:layout_height="@dimen/star_size"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_star_rate_purple_900_24dp" />
+                android:paddingTop="7dp"
+                android:src="@drawable/ic_star_rate_grey_500_24dp"
+                android:clickable="true"/>
+
             <TextView
                 android:id="@+id/tv_query"
                 android:layout_width="wrap_content"
@@ -32,32 +35,42 @@
                 android:paddingEnd="@dimen/query_paddingEnd"
                 android:textSize="@dimen/query_text_size"
                 tools:text="Good" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_us_phonetic"
-                android:textSize="@dimen/label_text_size"/>
 
-            <TextView
-                android:id="@+id/tv_us_phonetic"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/phonetics"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingEnd="@dimen/phonetic_paddingEnd"
-                tools:text="gud"
-                android:textSize="@dimen/phonetic_text_size"/>
+                android:layout_gravity="bottom"
+                android:orientation="horizontal"
+                android:paddingBottom="7dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_uk_phonetic"
-                android:textSize="@dimen/label_text_size"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_us_phonetic"
+                    android:textSize="@dimen/label_text_size" />
 
-            <TextView
-                android:id="@+id/tv_uk_phonetic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="gud"
-                android:textSize="@dimen/phonetic_text_size"/>
+                <TextView
+                    android:id="@+id/tv_us_phonetic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="@dimen/phonetic_paddingEnd"
+                    android:textSize="@dimen/phonetic_text_size"
+                    tools:text="gud" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_uk_phonetic"
+                    android:textSize="@dimen/label_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_uk_phonetic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/phonetic_text_size"
+                    tools:text="gud" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -69,22 +82,26 @@
             android:paddingStart="@dimen/tv_translation_paddingStart"
             android:paddingTop="@dimen/translation_paddingTop"
             android:textSize="@dimen/translation_text_size"
-            tools:text="好"/>
+            tools:text="好" />
 
         <ListView
             android:id="@+id/lv_explains"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_below="@id/tv_translation">
-        </ListView>
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_translation"
+            android:divider="@null"
+            android:paddingStart="@dimen/lv_explains_paddingStart" />
 
-        <Button
+
+        <TextView
             android:id="@+id/tv_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lv_explains"
             android:layout_alignParentEnd="true"
-            tools:text="更多"/>
+            android:layout_below="@id/lv_explains"
+            android:clickable="true"
+            android:padding="@dimen/tv_more_padding"
+            android:text="@string/tv_more"
+            android:textSize="@dimen/tv_more_text_size" />
     </RelativeLayout>
-
 </android.support.v7.widget.CardView>

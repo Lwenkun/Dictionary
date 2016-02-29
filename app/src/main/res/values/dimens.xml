@@ -31,6 +31,6 @@
     <dimen name="activity_padding">10dp</dimen>
     <dimen name="app_name_text_size_big">20dp</dimen>
     <dimen name="img_app_margin">15dp</dimen>
-
+    <dimen name="dialog_padding_horizontal">20dp</dimen>
 
 </resources>

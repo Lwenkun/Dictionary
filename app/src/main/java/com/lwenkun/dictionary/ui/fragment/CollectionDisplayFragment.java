@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import com.lwenkun.dictionary.R;
 import com.lwenkun.dictionary.model.TranslateResultSet;
 import com.lwenkun.dictionary.ui.Interface.UIUpdater;
-import com.lwenkun.dictionary.ui.widget.CollectionReviewAdapter;
+import com.lwenkun.dictionary.ui.widget.CollectionPreviewAdapter;
 import com.lwenkun.dictionary.util.DisplayCollectionTask;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class CollectionDisplayFragment extends Fragment implements UIUpdater{
 
-    private ListView lv_collectionReview;
+    private ListView lv_collectionPreview;
 
     private ProgressBar progressBar;
 
@@ -34,16 +34,16 @@ public class CollectionDisplayFragment extends Fragment implements UIUpdater{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_collection_display, container, true);
-        lv_collectionReview = (ListView) view.findViewById(R.id.lv_review);
+        lv_collectionPreview = (ListView) view.findViewById(R.id.lv_review);
         progressBar = (ProgressBar) view.findViewById(R.id.pb_load_collections);
-        lv_collectionReview.setAdapter(new CollectionReviewAdapter(getActivity(), R.layout.list_item_collection_review, translateResultSetList));
+        lv_collectionPreview.setAdapter(new CollectionPreviewAdapter(getActivity(), R.layout.fragment_result_display, translateResultSetList));
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        DisplayCollectionTask task = new DisplayCollectionTask(this);
+        DisplayCollectionTask task = new DisplayCollectionTask(this, translateResultSetList);
         task.execute();
     }
 
@@ -58,7 +58,7 @@ public class CollectionDisplayFragment extends Fragment implements UIUpdater{
     }
 
     @Override
-    public void onDataUpdate(Object data, int type) {
-        ((ArrayAdapter)lv_collectionReview.getAdapter()).notifyDataSetChanged();
+    public void onDataUpdate(Object data) {
+        ((ArrayAdapter)lv_collectionPreview.getAdapter()).notifyDataSetChanged();
     }
 }

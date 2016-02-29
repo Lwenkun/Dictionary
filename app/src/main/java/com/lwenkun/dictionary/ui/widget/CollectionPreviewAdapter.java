@@ -14,18 +14,21 @@ import android.widget.TextView;
 import com.lwenkun.dictionary.R;
 import com.lwenkun.dictionary.model.TranslateResultSet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by 15119 on 2015/12/28.
  */
-public class CollectionReviewAdapter extends ArrayAdapter<TranslateResultSet> {
+public class CollectionPreviewAdapter extends ArrayAdapter<TranslateResultSet> {
 
     private int resourceId;
+    private ArrayList<TranslateResultSet> resultSet;
 
-    public CollectionReviewAdapter(Context context, int resourceId, List<TranslateResultSet> objects) {
+    public CollectionPreviewAdapter(Context context, int resourceId, List<TranslateResultSet> objects) {
         super(context, resourceId, objects);
         this.resourceId = resourceId;
+        this.resultSet = (ArrayList<TranslateResultSet>) objects;
     }
 
 
@@ -59,12 +62,12 @@ public class CollectionReviewAdapter extends ArrayAdapter<TranslateResultSet> {
                     showPopup(v);
                 }
             });
-            lv_explains.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_expandable_list_item_1, translateResultSet.getExplains()));
+            lv_explains.setAdapter(new ArrayAdapter<>(getContext(), R.layout.list_item_explains, translateResultSet.getExplains()));
             ViewHolder viewHolder = new ViewHolder(tv_query, tv_translate, tv_usPhonetic, tv_ukPhonetic, lv_explains);
             convertView.setTag(viewHolder);
         } else {
             ViewHolder viewHolder = (ViewHolder) convertView.getTag();
-            viewHolder.tv_query.setText(translateResultSet.getTranslation());
+            viewHolder.tv_query.setText(translateResultSet.getQuery());
             viewHolder.tv_translation.setText(translateResultSet.getTranslation());
             viewHolder.tv_usPhonetic.setText(translateResultSet.getusPhonetic());
             viewHolder.tv_ukPhonetic.setText(translateResultSet.getukPhonetic());
@@ -116,5 +119,10 @@ public class CollectionReviewAdapter extends ArrayAdapter<TranslateResultSet> {
             }
         });
         popup.show();
+    }
+
+    @Override
+    public int getCount() {
+        return resultSet.size();
     }
 }

@@ -113,8 +113,6 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-
-
         // Handle navigation view item clicks here.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -143,21 +141,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDataUpdate(Object object, int type) {
+    public void onDataUpdate(Object object) {
         TranslateResultSet resultSet = (TranslateResultSet) object;
         ResultDisplayFragment fragment = new ResultDisplayFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(KEY_TYPE, type);
         bundle.putSerializable(KEY_SER, resultSet);
         fragment.setArguments(bundle);
-        getFragmentManager().beginTransaction().replace(R.id.fg_container, fragment).commit();
+        getFragmentManager()
+                .beginTransaction()
+                .hide(getFragmentManager().findFragmentById(R.id.fg_collection_display))
+                .replace(R.id.fg_container, fragment).commit();
     }
 
     public void showAddNewDialog() {
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_new_album, null);
         final EditText et_addNewAlbum = (EditText) view.findViewById(R.id.et_add_new_album);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setIcon(R.drawable.ic_note_add_white_24dp)
+        builder.setIcon(R.drawable.ic_add_circle_outline_grey_500_24dp)
                 .setTitle("新建单词本")
                 .setView(view)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -173,9 +173,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run() {
                 if (albumManager == null) {
-                    albumManager = AlbumManager.getInstance(MainActivity.this, handler);
+                    albumManager = AlbumManager.getInstance(MainActivity.this);
                 }
-                albumManager.addNewAlbum(albumName);
+                Message msg = new Message();
+                msg.what =  albumManager.addNewAlbum(albumName);
+                handler.sendMessage(msg);
             }
         }.start();
     }
@@ -183,17 +185,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
-            case AlbumManager.MSG_ALBUM_NOT_EXIST :
-                Toast.makeText(this, "出错啦，没有该单词本哦", Toast.LENGTH_SHORT).show();
-                break;
             case AlbumManager.MSG_ALBUM_ALREADY_EXIST:
                 Toast.makeText(this, "该单词本已存在，换个名字呗", Toast.LENGTH_SHORT).show();
                 break;
             case AlbumManager.MSG_CREATE_SUCCESSFUL:
-                Toast.makeText(this, "单词创建成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "单词本创建成功", Toast.LENGTH_SHORT).show();
+                break;
+            case AlbumManager.MSG_EMPTY_NOT_ALLOWED:
+                Toast.makeText(this, "亲，单词本不能为空哦", Toast.LENGTH_SHORT).show();
                 break;
         }
-
         return true;
     }
 }

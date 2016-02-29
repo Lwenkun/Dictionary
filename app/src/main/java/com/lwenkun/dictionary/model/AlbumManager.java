@@ -4,10 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Handler;
-import android.os.Message;
 
-import com.lwenkun.dictionary.model.db.AlbumDatabaseHelper;
+import com.lwenkun.dictionary.model.db.DictDbHelper;
 
 import java.util.ArrayList;
 
@@ -18,24 +16,22 @@ public class AlbumManager {
 
     private static Context mContext;
 
-    private AlbumDatabaseHelper databaseHelper;
+    private DictDbHelper databaseHelper;
 
     private ArrayList<String> albumList;
-
-    private static Handler mHandler;
 
     public final static int MSG_ALBUM_NOT_EXIST = 0;
     public final static int MSG_ALBUM_ALREADY_EXIST = 1;
     public final static int MSG_CREATE_SUCCESSFUL = 2;
+    public final static int MSG_EMPTY_NOT_ALLOWED = 3;
 
     private AlbumManager() {
         albumList = new ArrayList<>();
         loadAlbums();
     }
 
-    public static AlbumManager getInstance(Context context, Handler handler) {
+    public static AlbumManager getInstance(Context context) {
         mContext = context;
-        mHandler = handler;
         return AlbumManagerHolder.manager;
     }
 
@@ -43,25 +39,29 @@ public class AlbumManager {
          private static AlbumManager manager = new AlbumManager();
     }
 
-    public void addNewAlbum(String albumName) {
-        Message msg = new Message();
-        if(albumList.contains(albumName)) {
-            msg.what = MSG_ALBUM_ALREADY_EXIST;
+    public int addNewAlbum(String albumName) {
+
+        int result;
+        if("".equals(albumName)) {
+            result = MSG_EMPTY_NOT_ALLOWED;
+        } else if(albumList.contains(albumName)) {
+            result = MSG_ALBUM_ALREADY_EXIST;
         } else {
             ContentValues values = new ContentValues();
             values.put("name", albumName);
-            getAlbumDatabase().insert("album", null, values);
+            getDatabase().insert("album", null, values);
             albumList.add(albumName);
-            msg.what = MSG_CREATE_SUCCESSFUL;
+            result = MSG_CREATE_SUCCESSFUL;
         }
-        mHandler.sendMessage(msg);
+
+        return result;
     }
 
     public void loadAlbums() {
 
-        Cursor cursor = getAlbumDatabase().query("album", null, null, null, null, null, null);
-        String name;
+        Cursor cursor = getDatabase().query("album", null, null, null, null, null, null);
         if(cursor != null && cursor.moveToFirst()) {
+            String name;
             do {
                 if ((name = cursor.getString(cursor.getColumnIndex("name"))) != null) {
                     albumList.add(name);
@@ -73,26 +73,29 @@ public class AlbumManager {
         }
     }
 
-    public SQLiteDatabase getAlbumDatabase() {
+    public SQLiteDatabase getDatabase() {
 
         SQLiteDatabase sqLiteDatabase;
 
         if(databaseHelper == null) {
-            databaseHelper = new AlbumDatabaseHelper(mContext, "dictionary", null, 1);
+            databaseHelper = DictDbHelper.getInstance(mContext, "dictionary", null, 1);
         }
         sqLiteDatabase = databaseHelper.getWritableDatabase();
         return sqLiteDatabase;
     }
 
-    public void deleteAlbum(String albumName) {
+    public boolean deleteAlbum(String albumName) {
         if (albumList.contains(albumName)) {
-            getAlbumDatabase().delete("album", "where name = ?", new String[]{albumName});
+            getDatabase().delete("album", "where name = ?", new String[]{albumName});
             albumList.remove(albumName);
+            return true;
         } else {
-            Message msg = new Message();
-            msg.what = MSG_ALBUM_NOT_EXIST;
-            mHandler.sendMessage(msg);
+           return false;
         }
+    }
+
+    public ArrayList<String> getAlbums() {
+        return albumList;
     }
 
 }
